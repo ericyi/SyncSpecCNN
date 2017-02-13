@@ -1,4 +1,4 @@
-# sync-spec-cnn
+# SyncSpecCnn
 Synchronized Spectral CNN for 3D Shape Segmentation.
 
 ### Introduction
