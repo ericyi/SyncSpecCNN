@@ -1,22 +1,22 @@
 require 'nn'
-local MyCriterionSpecTN, parent = torch.class('nn.MyCriterionSpecTN', 'nn.Criterion')
+local SyncSpecCNNCriterionSpecTN, parent = torch.class('nn.SyncSpecCNNCriterionSpecTN', 'nn.Criterion')
 
-function MyCriterionSpecTN:__init()
+function SyncSpecCNNCriterionSpecTN:__init()
     parent.__init(self)
     self.MSECriterion = nn.MSECriterion()
 end
 
-function MyCriterionSpecTN:updateOutput(input, target)
+function SyncSpecCNNCriterionSpecTN:updateOutput(input, target)
     self.output = self.MSECriterion:updateOutput(input,target)
     return self.output
 end
 
-function MyCriterionSpecTN:updateGradInput(input, target)
+function SyncSpecCNNCriterionSpecTN:updateGradInput(input, target)
     self.gradInput = self.MSECriterion:updateGradInput(input,target)
     return self.gradInput
 end
 
-function MyCriterionSpecTN:type(t)
+function SyncSpecCNNCriterionSpecTN:type(t)
     parent.type(self, t)
     self.MSECriterion:type(t)
     return self

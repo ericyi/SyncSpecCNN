@@ -5,16 +5,16 @@
 ]]--
 
 require 'nn'
-local MyCriterion, parent = torch.class('nn.MyCriterion', 'nn.Criterion')
+local SyncSpecCNNCriterion, parent = torch.class('nn.SyncSpecCNNCriterion', 'nn.Criterion')
 
-function MyCriterion:__init(nDim)
+function SyncSpecCNNCriterion:__init(nDim)
     parent.__init(self)
     self.nDim = nDim or 12
     self.CrossEntropyCriterion = nn.CrossEntropyCriterion()
     self.MSECriterion = nn.MSECriterion()
 end
 
-function MyCriterion:updateOutput(input, target)
+function SyncSpecCNNCriterion:updateOutput(input, target)
     self.output = self.CrossEntropyCriterion:updateOutput(input[1],target)
     
     -- enforce functional map to be orthonormal
@@ -35,7 +35,7 @@ function MyCriterion:updateOutput(input, target)
     return self.output
 end
 
-function MyCriterion:updateGradInput(input, target)
+function SyncSpecCNNCriterion:updateGradInput(input, target)
     self.gradInput = {}
     self.gradInput[1] = self.CrossEntropyCriterion:updateGradInput(input[1],target)
     
@@ -50,7 +50,7 @@ function MyCriterion:updateGradInput(input, target)
     return self.gradInput
 end
 
-function MyCriterion:type(t)
+function SyncSpecCNNCriterion:type(t)
     parent.type(self, t)
     self.CrossEntropyCriterion:type(t)
     self.MSECriterion:type(t)

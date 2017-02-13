@@ -8,11 +8,11 @@ require 'nn'
 require 'cutorch'
 require 'cunn'
 require 'optim'
-require 'MyDataContainer'
-require 'MyTrainer'
-require 'MyModel'
-require 'MyCriterion'
-require 'MyCriterionSpecTN'
+require 'SyncSpecCNNDataContainer'
+require 'SyncSpecCNNTrainer'
+require 'SyncSpecCNNModel'
+require 'SyncSpecCNNCriterion'
+require 'SyncSpecCNNCriterionSpecTN'
 require 'torchx'
 matio = require 'matio'
 matio.use_lua_strings = true
@@ -79,11 +79,11 @@ end
 function pretrainSpecTN(ndim, ndimJoint, batchSize, maxEpoch, lr)
     -- train SpecTN
     model_spectn = SpecTN(ndim,ndimJoint):cuda()
-    criterion_spectn = nn.MyCriterionSpecTN():cuda()
+    criterion_spectn = nn.SyncSpecCNNCriterionSpecTN():cuda()
     lossHistory_spectn = {}
     state_spectn = {}
     -- train config
-    trainer_spectn = MyTrainer(model_spectn, criterion_spectn)
+    trainer_spectn = SyncSpecCNNTrainer(model_spectn, criterion_spectn)
     trainer_spectn.lossHistory = lossHistory_spectn
     trainer_spectn.epoch = 1
     trainer_spectn.maxEpoch = maxEpoch or 30
@@ -127,7 +127,7 @@ function trainLearnTrans(ndim, ndimJoint, nin, nout, batchSize, maxEpoch, lr1, l
     model_spectn = spectn[2]
     state_spectn = spectn[3]
     model = SyncSpecCNN(model_spectn,ndim,ndimJoint,nin,nout):cuda()
-    criterion = nn.MyCriterion(ndim):cuda()
+    criterion = nn.SyncSpecCNNCriterion(ndim):cuda()
     lossHistory = {}
     state = {}
     splitimx = torch.Tensor(#model.modules):fill(0)
@@ -150,7 +150,7 @@ function trainLearnTrans(ndim, ndimJoint, nin, nout, batchSize, maxEpoch, lr1, l
     state.denom[{{splitimx[transModuleIdx-1]+1,splitimx[transModuleIdx]}}] = state_spectn.denom
 
     -- train
-    trainer = MyTrainer(model, criterion)
+    trainer = SyncSpecCNNTrainer(model, criterion)
     trainer.lossHistory = lossHistory
     trainer.epoch = 1
     trainer.maxEpoch = maxEpoch or 40

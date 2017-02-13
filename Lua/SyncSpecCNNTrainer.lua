@@ -1,9 +1,9 @@
 require 'optim'
 require 'adammy'
 require 'matio'
-local MyTrainer = torch.class('MyTrainer')
+local SyncSpecCNNTrainer = torch.class('SyncSpecCNNTrainer')
 
-function MyTrainer:__init(model, criterion)
+function SyncSpecCNNTrainer:__init(model, criterion)
     self.epoch = 1
     self.maxEpoch = 30
     self.batchSize = 8
@@ -30,7 +30,7 @@ function MyTrainer:__init(model, criterion)
 end
 
 -- trainset/testset/valset: several training/validation/test chunks, each corresponds to a structure with field (v: vertex functions, V: LB basis, D: LB energy, label: vertex label)
-function MyTrainer:train(trainset,testset,valset)
+function SyncSpecCNNTrainer:train(trainset,testset,valset)
     local batchSize = self.batchSize
     local model = self.model
     local criterion = self.criterion
@@ -126,7 +126,7 @@ function MyTrainer:train(trainset,testset,valset)
     end
 end
 
-function MyTrainer:eva(trainset,testset,valset)
+function SyncSpecCNNTrainer:eva(trainset,testset,valset)
     local model = self.model
     model:evaluate()
     local batchSize = self.batchSize
@@ -237,7 +237,7 @@ function MyTrainer:eva(trainset,testset,valset)
     model:training()
 end
 
-function MyTrainer:save()
+function SyncSpecCNNTrainer:save()
     local model = self.model
     model:clearState()
     for mm=1,#(model.modules) do
