@@ -46,13 +46,13 @@ You also need to install a few torch packages (if you haven't done so) including
   
         bash getdata.sh
   
-  These data has been split into different categories and also training/test/validation sets for each category.
+  These data has been split into different categories and is also split into training/test/validation sets for each category.
 
 2. Compute Laplacian basis for individual shapes and compute joint Laplacian basis for each shape category:
 
         Matlab/data_preprocessing.m
    
-   You will need matlab to preprocess the data. There is one category having been pre-processed already called `Test`, which could be directly used for training.
+   You will need matlab to preprocess the data. There is one sample category having been pre-processed already called `Sample`, which could be directly used for training.
    
 3. Train SyncSpecCNN for each category. To see HELP for training script:
         
@@ -62,7 +62,7 @@ You also need to install a few torch packages (if you haven't done so) including
    An example training command is as below:
    
         cd Lua
-        th main.lua -s Test -i 33 -o 4 -ntr 3 -nte 1 -nval 1 -e_b1 20 -e 20 -g 0
+        th main.lua -s Sample -i 33 -o 4 -ntr 3 -nte 1 -nval 1 -e_b1 20 -e 20 -g 0
    
    The segmentation score will be printed as training goes.
 
