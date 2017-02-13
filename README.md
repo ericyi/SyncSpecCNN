@@ -46,7 +46,7 @@ You also need to install a few torch packages (if you haven't done so) including
   
         bash getdata.sh
   
-  These data has been split into different categories and is also split into training/test/validation sets for each category.
+  These data has been split into different categories and is also split into training/test/validation sets for each category. The data file size is 5GB in total.
 
 2. Compute Laplacian basis for individual shapes and compute joint Laplacian basis for each shape category:
 
