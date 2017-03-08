@@ -69,7 +69,7 @@ for s=1:length(synsets)
     for i=1:length(fileList)
         load(fullfile(datapath,synset,fileList{i}));
         for j=1:length(pts)
-            pt = pts{j};
+            pt = v{j}(:,end-2:end);
             pt = bsxfun(@rdivide,pt,max(abs(pt),[],1)+eps);
             %%%% generate point-voxel correspondences
             vv_grid = ceil((pt+1+eps)/res);
